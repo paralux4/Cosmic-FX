@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "cosmeticfx",
+  "version": "${version}",
+  "name": "Cosmic",
+  "description": "Cosmic — client-side cosmetic visual effects. No gameplay assistance.",
+  "authors": ["Magnus"],
+  "environment": "client",
+  "entrypoints": {
+    "client": ["com.magnus.cosmeticfx.CosmeticFX"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.2",
+    "fabric-api": "*",
+    "java": ">=25"
+  }
+}
