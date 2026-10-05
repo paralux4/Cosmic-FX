@@ -1,45 +1,34 @@
 # Cosmic — Fabric 26.2
 
-A client-side, cosmetic-only Minecraft mod for Fabric 26.2. Cosmic recreates flashy hit/world visuals without providing gameplay assistance.
-
-## Menu
-
-Open the in-game **COSMIC** menu with:
-
-`/cosmic menu`
-
-The menu includes:
-- Master enable/disable
-- Hit particles
-- Critical burst
-- Kill burst
-- Hit flash
-- Block/world FX
-- Hit particle count
-- Critical particle count
-- Particle spread
-- Particle speed
-- Test Effects
-
-All settings are saved to:
-
-`.minecraft/config/cosmeticfx.properties`
-
-## Commands
-
-- `/cosmic menu`
-- `/cosmic toggle`
-- `/cosmic test`
-- `/cosmeticfx toggle`
-- `/cosmeticfx reload`
-- `/cosmeticfx test`
-
-## Safety / scope
-
-Cosmic is intentionally visual-only and client-side. It does not modify reach, aiming, movement, combat mechanics, packets, automation, entity information, or server state.
+Cosmic is a client-side cosmetic visual-effects mod for Minecraft 26.2.
 
 ## Build
 
-Requires Java 25 for Minecraft 26.2.
+Requirements:
+- Java 25
+- Internet access for the first Gradle bootstrap/dependency download
 
-`./gradlew build`
+### Linux/macOS
+
+```bash
+chmod +x ./gradlew
+./gradlew build
+```
+
+### Windows
+
+```bat
+gradlew.bat build
+```
+
+The launcher in this project bootstraps Gradle 9.5.1 from the URL in `gradle/wrapper/gradle-wrapper.properties`, so the repository does not depend on a globally installed Gradle executable.
+
+## GitHub Actions
+
+`.github/workflows/main.yml` builds the mod on pushes, pull requests, and manual runs. It uploads the resulting JAR as an artifact. Pushing a tag such as `v0.1.0` also creates a GitHub Release and attaches the JAR.
+
+## In-game
+
+Use `/cosmic menu` to open the Cosmic settings menu.
+
+The mod is intended to remain visual/client-side only. It does not implement reach changes, aim assistance, automation, packet manipulation, movement changes, or server-side gameplay changes.

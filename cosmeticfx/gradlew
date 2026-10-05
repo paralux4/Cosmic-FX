@@ -1,0 +1,36 @@
+#!/usr/bin/env sh
+set -eu
+
+APP_HOME=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+PROPS="$APP_HOME/gradle/wrapper/gradle-wrapper.properties"
+
+DIST_URL=$(sed -n 's/^distributionUrl=//p' "$PROPS" | sed 's/\\:/:/g; s/\\//g')
+GRADLE_VERSION=$(printf '%s' "$DIST_URL" | sed -n 's#.*gradle-\([^/]*\)-bin\.zip#\1#p')
+
+if [ -z "$GRADLE_VERSION" ]; then
+  echo "Could not determine Gradle version from $PROPS" >&2
+  exit 1
+fi
+
+GRADLE_USER_HOME="${GRADLE_USER_HOME:-$HOME/.gradle}"
+DIST_DIR="$GRADLE_USER_HOME/wrapper/dists/gradle-$GRADLE_VERSION-bin"
+INSTALL_DIR="$DIST_DIR/gradle-$GRADLE_VERSION"
+
+if [ ! -x "$INSTALL_DIR/bin/gradle" ]; then
+  mkdir -p "$DIST_DIR"
+  TMP="$DIST_DIR/gradle-$GRADLE_VERSION-bin.zip"
+  echo "Downloading Gradle $GRADLE_VERSION..."
+  if command -v curl >/dev/null 2>&1; then
+    curl -fL --retry 3 "$DIST_URL" -o "$TMP"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -O "$TMP" "$DIST_URL"
+  else
+    echo "curl or wget is required to bootstrap Gradle." >&2
+    exit 1
+  fi
+  rm -rf "$INSTALL_DIR"
+  unzip -q "$TMP" -d "$DIST_DIR"
+  rm -f "$TMP"
+fi
+
+exec "$INSTALL_DIR/bin/gradle" "$@"
